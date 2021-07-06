@@ -20,4 +20,31 @@ headerCityButton.addEventListener('click', () => {
   localStorage.setItem('lomoda-location', city);
 })
 
-// ==================  End of Choosing user location  ================== //
+// ===============  End of Choosing user location  =============== //
+
+
+
+// =======================  Modal window  ======================= //
+
+const subheaderCart = document.querySelector('.subheader__cart');
+const cartOverlay = document.querySelector('.cart-overlay');
+
+const cartModalOpen = () => {
+  cartOverlay.classList.add('cart-overlay-open');
+}
+
+const cartModalClose = () => {
+  cartOverlay.classList.remove('cart-overlay-open');
+}
+
+subheaderCart.addEventListener('click', cartModalOpen)
+
+cartOverlay.addEventListener('click', event => {
+  const target = event.target;
+
+  if (target.matches('.cart__btn-close') || target.matches('.cart-overlay')) {
+    cartModalClose();
+  }
+})
+
+// =======================  End of Modal window  ======================= //
