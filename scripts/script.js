@@ -4,6 +4,9 @@
 
 const headerCityButton = document.querySelector('.header__city-button');
 
+// Define the location: #women, #men, or #kids. Without hash (#).
+let hash = location.hash.substring(1);
+
 // If the key in 'lomoda-location' is not equal null or undefined,
 // display the data of this key on the headerCityButton. 
 // Else display 'Ваш город?'.
@@ -95,4 +98,112 @@ document.addEventListener('keydown', event => {
   }
 });
 
-// =======================  End of Modal window  ======================= //
+// ====================  End of Modal window  ==================== //
+
+
+
+// =======================  Database query  ======================= //
+
+// Fetching data from the server.
+const getData = async () => {
+  const data = await fetch('db.json');
+
+  if (data.ok) {
+    return data.json();
+  } else {
+    throw new Error(`Данные не были получены, ошибка ${data.status} ${data.statusText}`);
+  }
+}
+
+const getGoods = (callback, value) => {
+  getData()
+    .then(data => {
+      // After data are fetching, started the callback function.
+      // The category of an item must be matched with the hash (#women, #men, or #kids).
+      if (value) {
+        callback(data.filter(item => item.category === value))
+      } else {
+        // For such a case, when needed to get all items from the database.
+        callback(data);
+      }
+    })
+    // If data have an error, catch it and display an error message in the modal window.
+    .catch(err => {
+      throw err;
+      // alert('Внимание! Если данные не загрузились, попробуйте повторить запрос позже.');
+    });
+};
+
+// ====================  End of Database query  ==================== //
+
+
+
+// =============  Display data response on goods.html  ============= //
+
+try {
+  const goodsList = document.querySelector('.goods__list');
+
+  // if it's not goods.html throw an exception
+  if (!goodsList) {
+    throw 'This is not a goods page!'
+  }
+
+  // The action of the creation of a product card on the page goodst.html
+  // Using the destructuring method, we get the element variables from the data.
+  // Variables from data items.
+  // const { id, preview, cost, brand, name, sizes } = data;
+  const createCard = ({ id, preview, cost, brand, name, sizes }) => {
+
+    // The creating of a product card on the page.
+    const li = document.createElement('li');
+
+    li.classList.add('goods__item');
+
+    li.innerHTML = `
+    <article class="good">
+      <a class="good__link-img" href="card-good.html#${id}">
+          <img class="good__img" src="goods-image/${preview}" alt="">
+      </a>
+      <div class="good__description">
+          <p class="good__price">${cost} &#8381;</p>
+          <h3 class="good__title">${brand} <span class="good__title__grey">/ ${name}</span></h3>
+
+          <!-- Checking whether the data element has a "sizes" property? -->
+          ${sizes ?
+        `<p class="good__sizes">Размеры (RUS): <span class="good__sizes-list">${sizes.join(' ')}</span></p>` :
+        ''}
+
+          <a class="good__link" href="card-good.html#${id}">Подробнее</a>
+      </div>
+    </article>
+    `
+
+    return li;
+  };
+
+  const renderGoodsList = data => {
+    // Clearing the page content before adding fetching data as goods__item.
+    goodsList.textContent = '';
+
+    // Iterating over data. Each item from the data array must be appended into goods.html.
+    data.forEach(item => {
+      const card = createCard(item);
+      goodsList.append(card);
+    })
+  };
+
+  // When location hash has been changed(from #women to #men, for instance), 
+  // items must be reloading by hash matches.
+  window.addEventListener('hashchange', () => {
+    hash = location.hash.substring(1);
+    getGoods(renderGoodsList, hash);
+  })
+
+  // After data are fetching, started the function renderGoodsList().
+  getGoods(renderGoodsList, hash);
+
+} catch (err) {
+  console.warn(err)
+}
+
+// ========== End od Display data response on goods.html  ========== //
