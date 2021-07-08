@@ -10,16 +10,15 @@ let hash = location.hash.substring(1);
 // If the key in 'lomoda-location' is not equal null or undefined,
 // display the data of this key on the headerCityButton. 
 // Else display 'Ваш город?'.
-headerCityButton.textContent = localStorage.key('lomoda-location') ?
+headerCityButton.textContent = localStorage.getItem('lomoda-location') ?
   localStorage.getItem('lomoda-location') : 'Ваш город?';
 
 headerCityButton.addEventListener('click', () => {
 
-  const city = prompt('Укажите ваш город', '');
+  const city = prompt('Укажите ваш город', '').trim();
   // If the value of 'city' is not null or undefined, 
   // assign this value to the variable. Else assign 'Ваш город?'.
   headerCityButton.textContent = city ? city : 'Ваш город?';
-
   localStorage.setItem('lomoda-location', city);
 })
 
@@ -30,8 +29,13 @@ headerCityButton.addEventListener('click', () => {
 // =========  Blocked and unblocked scroll of the page  ========= //
 
 const disableScroll = () => {
+  // The Scroll should not recalculate the width.
+  if (document.disableScroll) return;
   // Calculating the scroll width.
   const widthScroll = window.innerWidth - document.body.offsetWidth;
+
+  // When function disabledScroll() is active, parameter disabledScroll is true.
+  document.disabledScroll = true;
 
   // Creating a new property inside the document body in which
   // writing the position of scrolling (window.scrollY).
@@ -52,6 +56,9 @@ const disableScroll = () => {
 };
 
 const enableScroll = () => {
+  // When function disabledScroll() is active, parameter disabledScroll is false.
+  document.disabledScroll = true;
+
   document.body.style.cssText = '';
   window.scroll({
     top: document.body.dbScrollY
@@ -105,8 +112,8 @@ document.addEventListener('keydown', event => {
 // =======================  Database query  ======================= //
 
 // Fetching data from the server.
-const getData = async () => {
-  const data = await fetch('db.json');
+const getData = async (database) => {
+  const data = await fetch(database);
 
   if (data.ok) {
     return data.json();
@@ -115,13 +122,15 @@ const getData = async () => {
   }
 }
 
-const getGoods = (callback, value) => {
-  getData()
+// The parameter 'prop' is needed for display or data response on goods.html
+// or data response on card-good.html
+const getGoods = (callback, prop, value) => {
+  getData('db.json')
     .then(data => {
       // After data are fetching, started the callback function.
       // The category of an item must be matched with the hash (#women, #men, or #kids).
       if (value) {
-        callback(data.filter(item => item.category === value))
+        callback(data.filter(item => item[prop] === value))
       } else {
         // For such a case, when needed to get all items from the database.
         callback(data);
@@ -129,7 +138,7 @@ const getGoods = (callback, value) => {
     })
     // If data have an error, catch it and display an error message in the modal window.
     .catch(err => {
-      throw err;
+      throw console.warn(err);
       // alert('Внимание! Если данные не загрузились, попробуйте повторить запрос позже.');
     });
 };
@@ -146,6 +155,13 @@ try {
   // if it's not goods.html throw an exception
   if (!goodsList) {
     throw 'This is not a goods page!'
+  }
+
+  // Changing 'goods__title' when changing the location (#women, #men, or #kids)
+  const goodsTitle = document.querySelector('.goods__title');
+
+  const changeTitle = () => {
+    goodsTitle.textContent = document.querySelector(`[href*="#${hash}"]`).textContent;
   }
 
   // The action of the creation of a product card on the page goodst.html
@@ -196,14 +212,90 @@ try {
   // items must be reloading by hash matches.
   window.addEventListener('hashchange', () => {
     hash = location.hash.substring(1);
-    getGoods(renderGoodsList, hash);
+    getGoods(renderGoodsList, 'category', hash);
+
+    // Activating the function, which changed 'goods__title' when changing the location (#women, #men, or #kids)
+    changeTitle();
   })
 
+  // Activating the function, which changed 'goods__title' when changing the location (#women, #men, or #kids)
+  changeTitle();
   // After data are fetching, started the function renderGoodsList().
-  getGoods(renderGoodsList, hash);
+  getGoods(renderGoodsList, 'category', hash);
 
 } catch (err) {
   console.warn(err)
 }
 
 // ========== End od Display data response on goods.html  ========== //
+
+
+
+// =============  Display data response on card-good.html  ============= //
+
+try {
+  if (!document.querySelector('.card-good')) {
+    throw 'This is not a card-good-page';
+  }
+
+  const cardGoodImage = document.querySelector('.card-good__image');
+  const cardGoodBrand = document.querySelector('.card-good__brand');
+  const cardGoodTitle = document.querySelector('.card-good__title');
+  const cardGoodPrice = document.querySelector('.card-good__price');
+  const cardGoodColor = document.querySelector('.card-good__color');
+  const cardGoodSelectWrapper = document.querySelectorAll('.card-good__select__wrapper');
+  const cardGoodColorList = document.querySelector('.card-good__color-list');
+  const cardGoodSizes = document.querySelector('.card-good__sizes');
+  const cardGoodSelectList = document.querySelector('.card-good__select-list');
+
+  const generatedList = data => data.reduce((html, item, index) => html +
+    `<li class="card-good__select-item" data-id="${index}">${item}</li>`, '');
+
+  const renderCardGood = ([{ brand, name, cost, color, sizes, photo }]) => {
+
+    cardGoodImage.src = `goods-image/${photo}`;
+    cardGoodImage.alt = `${brand} ${name}`;
+    cardGoodBrand.alt = brand;
+    cardGoodTitle.textContent = name;
+    cardGoodPrice.textContent = `${cost} ₽`;
+    if (color) {
+      cardGoodColor.textContent = color[0];
+      cardGoodColor.dataset.id = 0;
+      cardGoodColorList.innerHTML = generatedList(color);
+    } else {
+      cardGoodColor.style.display = 'none';
+    }
+    if (sizes) {
+      cardGoodSizes.textContent = sizes[0];
+      cardGoodSizes.dataset.id = 0;
+      cardGoodSelectList.innerHTML = generatedList(sizes);
+    } else {
+      cardGoodSizes.style.display = 'none';
+    }
+
+  };
+
+  cardGoodSelectWrapper.forEach(item => {
+    item.addEventListener('click', event => {
+      const target = event.target;
+
+      if (target.closest('.card-good__select')) {
+        target.classList.toggle('card-good__select__open');
+      }
+
+      if (target.closest('.card-good__select-item')) {
+        const cardGoodSelect = item.querySelector('.card-good__select');
+        cardGoodSelect.textContent = target.textContent;
+        cardGoodSelect.dataset.id = target.dataset.id;
+        cardGoodSelect.classList.remove('card-good__select-item');
+      }
+    });
+  });
+
+  getGoods(renderCardGood, 'id', hash);
+
+} catch (err) {
+  console.warn(err);
+}
+
+// ==========  End of Display data response on cardgood.html  ========== //
