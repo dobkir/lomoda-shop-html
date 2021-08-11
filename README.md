@@ -1,4 +1,4 @@
-# Clothing store website template <img src="https://img.icons8.com/emoji/48/000000/coat-emoji.png"/> "Lomoda" <img src="https://img.icons8.com/color/48/000000/womens-suit.png"/>
+# Clothing store website template <span><img src="https://img.icons8.com/emoji/48/000000/coat-emoji.png"/>"Lomoda"<img src="https://img.icons8.com/color/48/000000/womens-suit.png"/></span>
 
 [![Contributors][contributors-shield]][contributors-url]&nbsp;
 [![Forks][forks-shield]][forks-url]&nbsp;
