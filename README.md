@@ -1,5 +1,4 @@
-# Clothing store website template 
-![Lomoda logo icon](https://img.icons8.com/emoji/48/000000/coat-emoji.png) "Lomoda" ![Lomoda logo icon](https://img.icons8.com/emoji/48/000000/coat-emoji.png)
+# Clothing store website template :womans_clothes:"Lomoda":dress:
 
 [![Contributors][contributors-shield]][contributors-url]&nbsp;
 [![Forks][forks-shield]][forks-url]&nbsp;
@@ -65,7 +64,7 @@ Project Link: [https://github.com/dobkir/lomoda-shop-html](https://github.com/do
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 - [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-- [ICONS8](https://icons8.com/)
+- [Emoji from WebFX](https://www.webfx.com/tools/emoji-cheat-sheet/)
 - [Img Shields](https://shields.io)
 - [Choose an Open Source License](https://choosealicense.com)
 - [GitHub Pages](https://pages.github.com)
