@@ -1,4 +1,4 @@
-# Clothing store website template <img src="https://img.icons8.com/emoji/50/000000/coat-emoji.png"/> "Lomoda" <img src="https://img.icons8.com/color/50/000000/womens-suit.png"/>
+# Clothing store website template <img src="https://img.icons8.com/emoji/48/000000/coat-emoji.png"/> "Lomoda" <img src="https://img.icons8.com/color/48/000000/womens-suit.png"/>
 
 [![Contributors][contributors-shield]][contributors-url]&nbsp;
 [![Forks][forks-shield]][forks-url]&nbsp;
@@ -43,7 +43,7 @@ this store live.
 ![CSS3](https://img.shields.io/badge/CSS3-2.7%25-563d7c?logo=CSS3&logoColor=563d7c&style=for-the-badge)
 
 - Through:<br>
-![Local JSON DB](https://github.com/dobkir/lomoda-shop-html/blob/master/db.json)
+[Local JSON DB](https://github.com/dobkir/lomoda-shop-html/blob/master/db.json)
 
 - IDE<br>
 ![VSCode](https://img.icons8.com/color/48/000000/visual-studio-code-2019.png)<br>
