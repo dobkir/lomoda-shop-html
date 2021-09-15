@@ -61,8 +61,8 @@ Distributed under the MIT License. See [LICENSE](LICENSE.txt) for more informati
 
 Project Link: [https://github.com/dobkir/lomoda-shop-html](https://github.com/dobkir/lomoda-shop-html)
 
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
 - [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
 - [Emoji from WebFX](https://www.webfx.com/tools/emoji-cheat-sheet/)
 - [Img Shields](https://shields.io)
