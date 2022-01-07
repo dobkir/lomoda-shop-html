@@ -86,7 +86,6 @@ Project Link: [https://github.com/dobkir/lomoda-shop-html](https://github.com/do
 [repo-size-shield]: https://img.shields.io/github/repo-size/dobkir/lomoda-shop-html.svg?style=for-the-badge
 [languages-shield]: https://img.shields.io/github/languages/count/dobkir/lomoda-shop-html.svg?style=for-the-badge
 [main-language-shield]: https://img.shields.io/github/languages/top/dobkir/lomoda-shop-html.svg?style=for-the-badge&color=e34c26
-[product-screenshot]: https://github.com/dobkir/trailers/blob/master/lomoda/lomoda_trailer.gif
-
+[product-screenshot]: https://github.com/dobkir/trailers/blob/master/lomoda-shop-html/lomoda_html_trailer.gif
 <!-- Pages -->
 
